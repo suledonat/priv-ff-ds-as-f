@@ -497,7 +497,7 @@ class App extends React.Component {
               </Col>
             </Row>
             </Panel>
-            <Panel header="My team" eventKey="2">
+            <Panel header="Fightin DS" eventKey="2">
             <Row>
             {this.getMyTeamTable('QB')}
             {this.getMyTeamTable('RB')}
