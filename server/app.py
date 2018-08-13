@@ -105,7 +105,7 @@ def upload_projections():
     return "Success"
 
 
-@app.route('/api/selectFile')
+@app.route('/api/selectfile')
 def upload_file():
     return render_template('selectfile.html')
 
