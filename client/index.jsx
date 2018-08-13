@@ -371,7 +371,7 @@ class App extends React.Component {
           <Navbar inverse>
             <Navbar.Header>
               <Navbar.Brand>
-                <a href="#">FFAuctionDraft</a>
+                <a href="#">WillThisWork</a>
               </Navbar.Brand>
             </Navbar.Header>
             <Nav>
@@ -387,7 +387,7 @@ class App extends React.Component {
           </Row>
           <Row>
             <Col md={12}>
-            <p><i>Value-based draft logic provided by <a href="https://reddit.com/u/elboberto">elboberto</a>! More details available at the <a href="https://www.reddit.com/r/fantasyfootball/comments/6shrc7/elbobertos_custom_auction_value_generator_2017/">v1.0 2017 reddit thread</a></i></p>
+            <p></p>
             </Col>
           </Row>
           <Accordion defaultActiveKey="1">
