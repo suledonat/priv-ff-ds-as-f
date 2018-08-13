@@ -1,0 +1,46 @@
+{
+  "name": "FFAuction Draft Tool",
+  "description": "Draft day tool for value-based drafting",
+  "keywords": [
+    "react",
+    "webpack",
+    "production",
+    "flask",
+    "python",
+    "less",
+    "hot",
+    "reload"
+  ],
+  "website": "https://github.com/jbarciauskas/ffauction-app",
+  "addons": ["heroku-redis:hobby-dev"],
+  "buildpacks": [
+    {
+      "url": "heroku/python"
+    },
+    {
+      "url": "heroku/nodejs"
+    }
+  ],
+  "env": {
+    "BIND_ADDRESS": {
+      "description": "Bind address for gunicorn",
+      "value": "0.0.0.0"
+    },
+    "NODE_ENV": {
+      "description": "Set the `NODE_ENV` environment variable to `production` to disable debugging etc.",
+      "value": "production"
+    },
+    "NPM_CONFIG_PRODUCTION": {
+      "description": "By default heroku is not installing `devDependencies`, so let's do that.",
+      "value": "false"
+    },
+    "AUTH_USERNAME": {
+      "description": "Username for authorization for protected endpoints (CSV upload)",
+      "value": "admin"
+    },
+    "AUTH_PASSWORD": {
+      "description": "Password for authorization for protected endpoints (CSV upload)",
+      "generator": "secret"
+    }
+  }
+}
