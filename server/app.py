@@ -11,7 +11,7 @@ from ffauction.pricing import VBDModel, PriceModel
 from ffauction.user_settings import UserSettings
 from werkzeug.utils import secure_filename
 
-ALLOWED_EXTENSIONS = set(['csv'])
+ALLOWED_EXTENSIONS = set(['csv', 'txt'])
 
 app = Flask(__name__)
 
