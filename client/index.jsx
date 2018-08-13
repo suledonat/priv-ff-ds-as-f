@@ -371,7 +371,7 @@ class App extends React.Component {
           <Navbar inverse>
             <Navbar.Header>
               <Navbar.Brand>
-                <a href="#">FFAuctionDraft</a>
+                <a href="#">WillThisWork</a>
               </Navbar.Brand>
             </Navbar.Header>
             <Nav>
