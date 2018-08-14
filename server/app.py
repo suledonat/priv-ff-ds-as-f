@@ -114,7 +114,7 @@ def get_players():
 
 
 @app.route('/api/uploadProjections', methods=['POST'])
-def upload_projectionsfromdb():
+def upload_projections():
     logging.info("running upload_projectionsfromdb")
     player_set = PlayerSet()
     player_set.load_projection_stats_DB(conn)
