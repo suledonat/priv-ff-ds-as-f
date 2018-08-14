@@ -15,12 +15,9 @@ from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 
-player_set = PlayerSet()
 DATABASE_URL = os.environ['DATABASE_URL']
 conn = psycopg2.connect(DATABASE_URL, sslmode='require')
-player_set.load_projection_stats_DB(conn)
-r = redis.from_url(os.environ.get("REDIS_URL"))
-r.set('projections_json', json.dumps(player_set.get_all(), cls=FullPlayerJsonEncoder))
+upload_projectionsfromdb()
 
 
 DEFAULTS = {
@@ -111,15 +108,12 @@ def upload_projections():
     r.set('projections_json', json.dumps(player_set.get_all(), cls=FullPlayerJsonEncoder))
     return "Success"
 
-@app.route('/api/uploadProjections', methods=['POST'])
+
 def upload_projectionsfromdb():
     player_set = PlayerSet()
-    DATABASE_URL = os.environ['DATABASE_URL']
-    conn = psycopg2.connect(DATABASE_URL, sslmode='require')
     player_set.load_projection_stats_DB(conn)
     r = redis.from_url(os.environ.get("REDIS_URL"))
     r.set('projections_json', json.dumps(player_set.get_all(), cls=FullPlayerJsonEncoder))
-    return "Success"
 
 
 @app.route('/')
