@@ -782,7 +782,7 @@ class App extends React.Component {
         </Row>
         <Row>
         <Col md={12}>
-        <p style={{marginTop:"10px"}}>Created by <a href="https://github.com/jbarciauskas">Joel Barciauskas</a>, full source available on <a href="https://github.com/jbarciauskas/ffauction-app">GitHub</a> and <a href="https://spdx.org/licenses/GPL-3.0.html">licensed under GPL-3.0</a></p>
+        <p style={{marginTop:"10px"}}></p>
         </Col>
         </Row>
         </Grid>
