@@ -17,7 +17,7 @@
         height: 100%;
       }
     </style>
-    <title>FFAuctionDraft</title>
+    <title>I wish i was a baller</title>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css">
 
