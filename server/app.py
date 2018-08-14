@@ -116,11 +116,6 @@ def upload_projectionsfromdb():
     return "Success"
 
 
-@app.route('/api/selectfile')
-def upload_file():
-    return render_template('selectfile.html')
-
-
 @app.route('/')
 def index():
     return render_template('index.html')
