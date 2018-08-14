@@ -17,7 +17,7 @@ app = Flask(__name__)
 
 DATABASE_URL = os.environ['DATABASE_URL']
 conn = psycopg2.connect(DATABASE_URL, sslmode='require')
-upload_projectionsfromdb()
+
 
 
 DEFAULTS = {
@@ -97,24 +97,24 @@ def get_players():
         }, cls=PlayerPriceJsonEncoder)
 
 
-@app.route('/api/uploadProjections_DEPR', methods=['POST'])
-def upload_projections():
-    if 'projections' not in request.files:
-        return "Failed, missing file"
-    projections = request.files['projections']
-    player_set = PlayerSet()
-    player_set.load_projection_stats_from_csv(projections)
-    r = redis.from_url(os.environ.get("REDIS_URL"))
-    r.set('projections_json', json.dumps(player_set.get_all(), cls=FullPlayerJsonEncoder))
-    return "Success"
+#def upload_projections():
+#    if 'projections' not in request.files:
+#        return "Failed, missing file"
+#    projections = request.files['projections']
+#    player_set = PlayerSet()
+#    player_set.load_projection_stats_from_csv(projections)
+#    r = redis.from_url(os.environ.get("REDIS_URL"))
+#    r.set('projections_json', json.dumps(player_set.get_all(), cls=FullPlayerJsonEncoder))
+#    return "Success"
 
 
+@app.route('/api/uploadProjections', methods=['POST'])
 def upload_projectionsfromdb():
     player_set = PlayerSet()
     player_set.load_projection_stats_DB(conn)
     r = redis.from_url(os.environ.get("REDIS_URL"))
     r.set('projections_json', json.dumps(player_set.get_all(), cls=FullPlayerJsonEncoder))
-
+    return "Success"
 
 @app.route('/')
 def index():

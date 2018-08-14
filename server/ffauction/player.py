@@ -4,6 +4,7 @@ import io
 import psycopg2
 
 
+
 class Player:
     def __init__(self):
         self.projected_points = 0
