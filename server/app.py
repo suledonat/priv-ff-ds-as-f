@@ -5,10 +5,8 @@ import pickle
 import redis
 import psycopg2
 
-import logging
 import sys
 
-logging.basicConfig(streams=sys.stdout, level=logging.DEBUG)
 
 from auth import requires_auth
 from ffauction.league import League
@@ -115,10 +113,8 @@ def get_players():
 
 @app.route('/api/uploadProjections', methods=['POST'])
 def upload_projections():
-    logging.info("running upload_projectionsfromdb")
     player_set = PlayerSet()
     player_set.load_projection_stats_DB(conn)
-    logging.info("loaded projectionsfromdb")
     r = redis.from_url(os.environ.get("REDIS_URL"))
     r.set('projections_json', json.dumps(player_set.get_all(), cls=FullPlayerJsonEncoder))
     return "Success"
