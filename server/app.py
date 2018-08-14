@@ -93,7 +93,7 @@ def get_players():
         }, cls=PlayerPriceJsonEncoder)
 
 
-@app.route('/api/uploadProjections', methods=['POST'])
+@app.route('/api/uploadProjections_DEPR', methods=['POST'])
 def upload_projections():
     if 'projections' not in request.files:
         return "Failed, missing file"
@@ -104,7 +104,7 @@ def upload_projections():
     r.set('projections_json', json.dumps(player_set.get_all(), cls=FullPlayerJsonEncoder))
     return "Success"
 
-@app.route('/api/Construct', methods=['POST'])
+@app.route('/api/uploadProjections', methods=['POST'])
 def upload_projectionsfromdb():
     player_set = PlayerSet()
     DATABASE_URL = os.environ['DATABASE_URL']
