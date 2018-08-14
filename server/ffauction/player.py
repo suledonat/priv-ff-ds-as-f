@@ -1,6 +1,7 @@
 import json
 import csv
 import io
+import psycopg2
 
 
 class Player:
@@ -132,6 +133,15 @@ class PlayerSet:
                 rowDict[headers[i]] = row[i]
 
             player.init_from_row(rowDict)
+            self.add_player(player)
+
+    def load_projection_stats_DB(self, conn):
+        cur = conn.cursor()
+        cur.execute("""SELECT * FROM public.privffdata""")
+        rows = cur.fetchall()
+        for row in rows:
+            player = Player()
+            player.init_from_row(row)
             self.add_player(player)
 
     def add_player(self, player):

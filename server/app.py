@@ -3,6 +3,7 @@ import json
 import os
 import pickle
 import redis
+import psycopg2
 
 from auth import requires_auth
 from ffauction.league import League
@@ -11,7 +12,9 @@ from ffauction.pricing import VBDModel, PriceModel
 from ffauction.user_settings import UserSettings
 from werkzeug.utils import secure_filename
 
-ALLOWED_EXTENSIONS = set(['csv', 'txt'])
+
+DATABASE_URL = os.environ['DATABASE_URL']
+conn = psycopg2.connect(DATABASE_URL, sslmode='require')
 
 app = Flask(__name__)
 
@@ -100,6 +103,14 @@ def upload_projections():
     projections = request.files['projections']
     player_set = PlayerSet()
     player_set.load_projection_stats_from_csv(projections)
+    r = redis.from_url(os.environ.get("REDIS_URL"))
+    r.set('projections_json', json.dumps(player_set.get_all(), cls=FullPlayerJsonEncoder))
+    return "Success"
+
+@app.route('/api/Construct', methods=['POST'])
+def upload_projectionsfromdb():
+    player_set = PlayerSet()
+    player_set.load_projection_stats_DB(conn)
     r = redis.from_url(os.environ.get("REDIS_URL"))
     r.set('projections_json', json.dumps(player_set.get_all(), cls=FullPlayerJsonEncoder))
     return "Success"
