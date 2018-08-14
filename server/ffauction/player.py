@@ -137,7 +137,7 @@ class PlayerSet:
 
     def load_projection_stats_DB(self, conn):
         cur = conn.cursor()
-        cur.execute("""SELECT * FROM public.privffdata""")
+        cur.execute("SELECT * FROM public.privffdata;")
         rows = cur.fetchall()
         for row in rows:
             player = Player()
