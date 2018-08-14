@@ -6,7 +6,7 @@ import logging
 import sys
 
 
-logging.basicConfigbasicConfig(streams=sys.stdout, level=logging.DEBUG)
+logging.basicConfig(streams=sys.stdout, level=logging.DEBUG)
 
 
 class Player:

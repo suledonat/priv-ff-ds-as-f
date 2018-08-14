@@ -8,7 +8,7 @@ import psycopg2
 import logging
 import sys
 
-logging.basicConfigbasicConfig(streams=sys.stdout, level=logging.DEBUG)
+logging.basicConfig(streams=sys.stdout, level=logging.DEBUG)
 
 from auth import requires_auth
 from ffauction.league import League
