@@ -117,4 +117,10 @@ def upload_projectionsfromdb():
 
 @app.route('/')
 def index():
+    player_set = PlayerSet()
+    DATABASE_URL = os.environ['DATABASE_URL']
+    conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+    player_set.load_projection_stats_DB(conn)
+    r = redis.from_url(os.environ.get("REDIS_URL"))
+    r.set('projections_json', json.dumps(player_set.get_all(), cls=FullPlayerJsonEncoder))
     return render_template('index.html')
