@@ -2,7 +2,11 @@ import json
 import csv
 import io
 import psycopg2
+import logging
+import sys
 
+
+logging.basicConfigbasicConfig(streams=sys.stdout, level=logging.DEBUG)
 
 
 class Player:
@@ -15,6 +19,7 @@ class Player:
         self.tier = 0
 
     def init_from_row(self, row):
+        logging.info(row['player'])
         self.name = row['player']
         self.player_id = row['playerId']
         self.team = row['team']
@@ -140,6 +145,7 @@ class PlayerSet:
         cur = conn.cursor()
         cur.execute("SELECT * FROM public.privffdata;")
         rows = cur.fetchall()
+        logging.info("fetched data")
         for row in rows:
             player = Player()
             player.init_from_row(row)
