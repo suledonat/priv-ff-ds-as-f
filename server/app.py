@@ -121,4 +121,8 @@ def upload_projections():
 
 @app.route('/')
 def index():
+    player_set = PlayerSet()
+    player_set.load_projection_stats_DB(conn)
+    r = redis.from_url(os.environ.get("REDIS_URL"))
+    r.set('projections_json', json.dumps(player_set.get_all(), cls=FullPlayerJsonEncoder))
     return render_template('index.html')

@@ -137,7 +137,7 @@ class PlayerSet:
             self.add_player(player)
 
     def load_projection_stats_DB(self, conn):
-        cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
+        cur = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
         cur.execute("SELECT * FROM public.privffdata;")
         for row in cur:
             player = Player()
