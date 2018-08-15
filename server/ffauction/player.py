@@ -5,6 +5,7 @@ import psycopg2
 import sys
 import psycopg2.extras
 
+
 class Player:
     def __init__(self):
         self.projected_points = 0
@@ -13,6 +14,25 @@ class Player:
         self.avg_vbd = 0
         self.base_price = 0
         self.tier = 0
+        self.name = "NA"
+        self.player_id = "NAID"
+        self.team = "UKN"
+        self.position = "QB"
+
+        self.passAtt = 0.0
+        self.passComp = 0.0
+        self.passYds = 0.0
+        self.passTds = 0.0
+        self.twoPts = 0.0
+        self.sacks = 0.0
+        self.passInt = 0.0
+        self.rushAtt = 0.0
+        self.rushYds = 0.0
+        self.rushTds = 0.0
+        self.rec = 0.0
+        self.recYds = 0.0
+        self.recTds = 0.0
+        self.fumbles = 0.0
 
     def init_from_row(self, row):
         self.name = row['player']
