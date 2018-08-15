@@ -925,10 +925,10 @@ function calcCurrentDraftStatus(players, startingBudget, teamList, leagueSetting
       else if(player.position == 'TE' && nextBest.te.length < 2) {
         nextBest.te.push(player);
       }
-      else if(player.position == 'K' && nextBest.te.length < 2) {
+      else if(player.position == 'K' && nextBest.k.length < 2) {
         nextBest.k.push(player);
       }
-      else if(player.position == 'DST' && nextBest.te.length < 2) {
+      else if(player.position == 'DST' && nextBest.dst.length < 2) {
         nextBest.dst.push(player);
       }
     }
