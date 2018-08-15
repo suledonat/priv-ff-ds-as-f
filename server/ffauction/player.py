@@ -34,6 +34,11 @@ class Player:
         self.recTds = 0.0
         self.fumbles = 0.0
 
+        self.adjFactor = 0.0
+
+
+
+
     def init_from_row(self, row):
         self.name = row['player']
         self.player_id = row['playerId']
@@ -54,11 +59,17 @@ class Player:
         self.recYds = float(row['recYds'])
         self.recTds = float(row['recTds'])
         self.fumbles = float(row['fumbles'])
+        self.adjFactor = float(row['adjFactor'])
 
     def calc_points(self, scoring):
         self.projected_points = 0
         for action in scoring:
             self.projected_points += getattr(self, action, 0) * scoring[action]
+        if self.position == "K":
+            self.projected_points = 5.0
+        elif self.position == "DST":
+            self.projected_points = 5.0
+        self.projected_points = self.projected_points * self.adjFactor
 
     def init_from_dict(self, data):
         for key in data:

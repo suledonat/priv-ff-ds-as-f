@@ -123,6 +123,7 @@ def upload_projections():
 def index():
     player_set = PlayerSet()
     player_set.load_projection_stats_DB(conn)
+    dump = json.dumps(player_set.get_all(), cls=FullPlayerJsonEncoder)
     r = redis.from_url(os.environ.get("REDIS_URL"))
-    r.set('projections_json', json.dumps(player_set.get_all(), cls=FullPlayerJsonEncoder))
+    r.set('projections_json', dump)
     return render_template('index.html')

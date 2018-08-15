@@ -251,6 +251,21 @@ class App extends React.Component {
     }
   }
 
+  getPositionalInflation(currentDraftStatus, position) {
+    if(currentDraftStatus.hasOwnProperty('valueByPos')
+        && currentDraftStatus.hasOwnProperty('paidByPos')
+        && currentDraftStatus.valueByPos.hasOwnProperty(position)
+        && currentDraftStatus.paidByPos.hasOwnProperty(position)) {
+      var value = currentDraftStatus.paidByPos[position];
+      if(currentDraftStatus.valueByPos[position] > 0){
+      value = value / currentDraftStatus.valueByPos[position];
+      return (parseFloat(value)).toFixed(3);
+      }
+      return (1).toFixed(3);
+    }
+  }
+
+
   getDropOffCellClass(val) {
     if(parseFloat(val) > 40) return 'danger';
     else if(parseFloat(val) > 20) return 'warning';
@@ -449,6 +464,7 @@ class App extends React.Component {
                   <th>Next best</th>
                   <th>Value</th>
                   <th>Dropoff (%)</th>
+                  <th>Positional Infl (Ratio)</th>
                 </tr>
               </thead>
               <tbody>
@@ -461,6 +477,7 @@ class App extends React.Component {
                   <td className={this.getDropOffCellClass(this.getBestAvailableDrop(this.state.currentDraftStatus, 'qb'))}>
                     {this.getBestAvailableDrop(this.state.currentDraftStatus, 'qb')}
                   </td>
+                  <td>{this.getPositionalInflation(this.state.currentDraftStatus, 'qb')}</td>
                 </tr>
                 <tr>
                   <td>RB</td>
@@ -471,6 +488,7 @@ class App extends React.Component {
                   <td className={this.getDropOffCellClass(this.getBestAvailableDrop(this.state.currentDraftStatus, 'rb'))}>
                     {this.getBestAvailableDrop(this.state.currentDraftStatus, 'rb')}
                   </td>
+                  <td>{this.getPositionalInflation(this.state.currentDraftStatus, 'rb')}</td>
                 </tr>
                 <tr>
                   <td>WR</td>
@@ -481,6 +499,7 @@ class App extends React.Component {
                   <td className={this.getDropOffCellClass(this.getBestAvailableDrop(this.state.currentDraftStatus, 'wr'))}>
                     {this.getBestAvailableDrop(this.state.currentDraftStatus, 'wr')}
                   </td>
+                  <td>{this.getPositionalInflation(this.state.currentDraftStatus, 'wr')}</td>
                 </tr>
                 <tr>
                   <td>TE</td>
@@ -491,6 +510,29 @@ class App extends React.Component {
                   <td className={this.getDropOffCellClass(this.getBestAvailableDrop(this.state.currentDraftStatus, 'te'))}>
                     {this.getBestAvailableDrop(this.state.currentDraftStatus, 'te')}
                   </td>
+                  <td>{this.getPositionalInflation(this.state.currentDraftStatus, 'te')}</td>
+                </tr>
+                <tr>
+                  <td>K</td>
+                  <td>{this.getBestAvailable(this.state.currentDraftStatus, 'k', 0, 'name')}</td>
+                  <td>{this.getBestAvailable(this.state.currentDraftStatus, 'k', 0, 'inflated_price')}</td>
+                  <td>{this.getBestAvailable(this.state.currentDraftStatus, 'k', 1, 'name')}</td>
+                  <td>{this.getBestAvailable(this.state.currentDraftStatus, 'k', 1, 'inflated_price')}</td>
+                  <td className={this.getDropOffCellClass(this.getBestAvailableDrop(this.state.currentDraftStatus, 'k'))}>
+                    {this.getBestAvailableDrop(this.state.currentDraftStatus, 'k')}
+                  </td>
+                  <td>{this.getPositionalInflation(this.state.currentDraftStatus, 'k')}</td>
+                </tr>
+                <tr>
+                  <td>DST</td>
+                  <td>{this.getBestAvailable(this.state.currentDraftStatus, 'dst', 0, 'name')}</td>
+                  <td>{this.getBestAvailable(this.state.currentDraftStatus, 'dst', 0, 'inflated_price')}</td>
+                  <td>{this.getBestAvailable(this.state.currentDraftStatus, 'dst', 1, 'name')}</td>
+                  <td>{this.getBestAvailable(this.state.currentDraftStatus, 'dst', 1, 'inflated_price')}</td>
+                  <td className={this.getDropOffCellClass(this.getBestAvailableDrop(this.state.currentDraftStatus, 'dst'))}>
+                    {this.getBestAvailableDrop(this.state.currentDraftStatus, 'dst')}
+                  </td>
+                  <td>{this.getPositionalInflation(this.state.currentDraftStatus, 'dst')}</td>
                 </tr>
                 </tbody>
                 </Table>
@@ -801,7 +843,29 @@ function calcCurrentDraftStatus(players, startingBudget, teamList, leagueSetting
     "rb": [],
     "wr": [],
     "te": [],
+    "k": [],
+    "dst": [],
   };
+
+  let paid = {
+    "qb": 0,
+    "rb": 0,
+    "wr": 0,
+    "te": 0,
+    "k": 0,
+    "dst": 0,
+  };
+
+  let value = {
+    "qb": 0,
+    "rb": 0,
+    "wr": 0,
+    "te": 0,
+    "k": 0,
+    "dst": 0,
+  };
+
+
   let currentRoster = [];
 
   let sortedPlayersByValue = players.concat().sort((a, b) => {
@@ -861,7 +925,43 @@ function calcCurrentDraftStatus(players, startingBudget, teamList, leagueSetting
       else if(player.position == 'TE' && nextBest.te.length < 2) {
         nextBest.te.push(player);
       }
+      else if(player.position == 'K' && nextBest.te.length < 2) {
+        nextBest.k.push(player);
+      }
+      else if(player.position == 'DST' && nextBest.te.length < 2) {
+        nextBest.dst.push(player);
+      }
     }
+    if(player.purchase_price > 0) {
+      if(player.position == 'QB') {
+        paid.qb += player.purchase_price;
+        value.qb += player.base_price;
+      }
+      else if(player.position == 'RB') {
+        paid.rb += player.purchase_price;
+        value.rb += player.base_price;
+      }
+      else if(player.position == 'WR') {
+        paid.wr += player.purchase_price;
+        value.wr += player.base_price;
+      }
+      else if(player.position == 'TE') {
+        paid.te += player.purchase_price;
+        value.te += player.base_price;
+      }
+      else if(player.position == 'K') {
+        paid.k += player.purchase_price;
+        value.k += player.base_price;
+      }
+      else if(player.position == 'DST') {
+        paid.dst += player.purchase_price;
+        value.dst += player.base_price;
+      }
+    }
+
+
+
+
   });
 
   if(players.length > 0) {
@@ -914,6 +1014,8 @@ function calcCurrentDraftStatus(players, startingBudget, teamList, leagueSetting
     "inflationRate": inflationRate,
     "mySpentBudget": mySpentBudget,
     "nextBest": nextBest,
+    "valueByPos": value,
+    "paidByPos": paid,
     "currentRosterLength": currentRoster.length,
     "rosterByPosition": rosterByPosition
   };
