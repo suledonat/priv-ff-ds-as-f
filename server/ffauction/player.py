@@ -3,7 +3,7 @@ import csv
 import io
 import psycopg2
 import sys
-
+import psycopg2.extras
 
 class Player:
     def __init__(self):
@@ -137,10 +137,9 @@ class PlayerSet:
             self.add_player(player)
 
     def load_projection_stats_DB(self, conn):
-        cur = conn.cursor(cursor_factory=RealDictCursor)
+        cur = conn.cursor(cursor_factory=psycopg2.extras.DictCursor)
         cur.execute("SELECT * FROM public.privffdata;")
-        rows = cur.fetchall()
-        for row in rows:
+        for row in cur:
             player = Player()
             player.init_from_row(row)
             self.add_player(player)
