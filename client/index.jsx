@@ -265,6 +265,27 @@ class App extends React.Component {
     }
   }
 
+  getPositionalInflationAvg(currentDraftStatus, position) {
+    if(currentDraftStatus.hasOwnProperty('valueByPosArr')
+        && currentDraftStatus.hasOwnProperty('paidByPosArr')
+        && currentDraftStatus.valueByPosArr.hasOwnProperty(position)
+        && currentDraftStatus.paidByPosArr.hasOwnProperty(position)) {
+      if(currentDraftStatus.valueByPosArr[position].length > 0){
+      var valueArr = currentDraftStatus.valueByPosArr[position];
+      var paidArr = currentDraftStatus.paidByPosArr[position];
+      var ratioArr = paidArr.map(function(x, i) {
+            if(valueArr[i] == 0){
+            return (1).toFixed(3);
+            }
+            return x/valueArr[i]}
+      });
+      let sum = ratioArr.reduce((previous, current) => current += previous);
+      let avg = sum / ratioArr.length;
+      return (parseFloat(avg)).toFixed(3);
+      }
+      return (1).toFixed(3);
+    }
+  }
 
   getDropOffCellClass(val) {
     if(parseFloat(val) > 40) return 'danger';
@@ -464,7 +485,8 @@ class App extends React.Component {
                   <th>Next best</th>
                   <th>Value</th>
                   <th>Dropoff (%)</th>
-                  <th>Positional Infl (Ratio)</th>
+                  <th>Positional Infl (Total)</th>
+                  <th>Positional Infl (Avg)</th>
                 </tr>
               </thead>
               <tbody>
@@ -478,6 +500,7 @@ class App extends React.Component {
                     {this.getBestAvailableDrop(this.state.currentDraftStatus, 'qb')}
                   </td>
                   <td>{this.getPositionalInflation(this.state.currentDraftStatus, 'qb')}</td>
+                  <td>{this.getPositionalInflationAvg(this.state.currentDraftStatus, 'qb')}</td>
                 </tr>
                 <tr>
                   <td>RB</td>
@@ -489,6 +512,7 @@ class App extends React.Component {
                     {this.getBestAvailableDrop(this.state.currentDraftStatus, 'rb')}
                   </td>
                   <td>{this.getPositionalInflation(this.state.currentDraftStatus, 'rb')}</td>
+                  <td>{this.getPositionalInflationAvg(this.state.currentDraftStatus, 'rb')}</td>
                 </tr>
                 <tr>
                   <td>WR</td>
@@ -500,6 +524,7 @@ class App extends React.Component {
                     {this.getBestAvailableDrop(this.state.currentDraftStatus, 'wr')}
                   </td>
                   <td>{this.getPositionalInflation(this.state.currentDraftStatus, 'wr')}</td>
+                  <td>{this.getPositionalInflationAvg(this.state.currentDraftStatus, 'wr')}</td>
                 </tr>
                 <tr>
                   <td>TE</td>
@@ -511,6 +536,7 @@ class App extends React.Component {
                     {this.getBestAvailableDrop(this.state.currentDraftStatus, 'te')}
                   </td>
                   <td>{this.getPositionalInflation(this.state.currentDraftStatus, 'te')}</td>
+                  <td>{this.getPositionalInflationAvg(this.state.currentDraftStatus, 'te')}</td>
                 </tr>
                 <tr>
                   <td>K</td>
@@ -522,6 +548,7 @@ class App extends React.Component {
                     {this.getBestAvailableDrop(this.state.currentDraftStatus, 'k')}
                   </td>
                   <td>{this.getPositionalInflation(this.state.currentDraftStatus, 'k')}</td>
+                  <td>{this.getPositionalInflationAvg(this.state.currentDraftStatus, 'k')}</td>
                 </tr>
                 <tr>
                   <td>DST</td>
@@ -533,6 +560,7 @@ class App extends React.Component {
                     {this.getBestAvailableDrop(this.state.currentDraftStatus, 'dst')}
                   </td>
                   <td>{this.getPositionalInflation(this.state.currentDraftStatus, 'dst')}</td>
+                  <td>{this.getPositionalInflationAvg(this.state.currentDraftStatus, 'dst')}</td>
                 </tr>
                 </tbody>
                 </Table>
@@ -847,6 +875,24 @@ function calcCurrentDraftStatus(players, startingBudget, teamList, leagueSetting
     "dst": [],
   };
 
+  let paidArr = {
+    "qb": [],
+    "rb": [],
+    "wr": [],
+    "te": [],
+    "k": [],
+    "dst": [],
+  };
+
+  let valueArr = {
+    "qb": [],
+    "rb": [],
+    "wr": [],
+    "te": [],
+    "k": [],
+    "dst": [],
+  };
+
   let paid = {
     "qb": 0,
     "rb": 0,
@@ -936,26 +982,38 @@ function calcCurrentDraftStatus(players, startingBudget, teamList, leagueSetting
       if(player.position == 'QB') {
         paid.qb += player.purchase_price;
         value.qb += player.base_price;
+        paidArr.qb.push(player.purchase_price);
+        valueArr.qb.push(player.base_price);
       }
       else if(player.position == 'RB') {
         paid.rb += player.purchase_price;
         value.rb += player.base_price;
+        paidArr.rb.push(player.purchase_price);
+        valueArr.rb.push(player.base_price);
       }
       else if(player.position == 'WR') {
         paid.wr += player.purchase_price;
         value.wr += player.base_price;
+        paidArr.wr.push(player.purchase_price);
+        valueArr.wr.push(player.base_price);
       }
       else if(player.position == 'TE') {
         paid.te += player.purchase_price;
         value.te += player.base_price;
+        paidArr.te.push(player.purchase_price);
+        valueArr.te.push(player.base_price);
       }
       else if(player.position == 'K') {
         paid.k += player.purchase_price;
         value.k += player.base_price;
+        paidArr.k.push(player.purchase_price);
+        valueArr.k.push(player.base_price);
       }
       else if(player.position == 'DST') {
         paid.dst += player.purchase_price;
         value.dst += player.base_price;
+        paidArr.dst.push(player.purchase_price);
+        valueArr.dst.push(player.base_price);
       }
     }
 
@@ -1016,6 +1074,8 @@ function calcCurrentDraftStatus(players, startingBudget, teamList, leagueSetting
     "nextBest": nextBest,
     "valueByPos": value,
     "paidByPos": paid,
+    "valueByPosArr": valueArr,
+    "paidByPosArr": paidArr,
     "currentRosterLength": currentRoster.length,
     "rosterByPosition": rosterByPosition
   };

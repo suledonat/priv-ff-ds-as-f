@@ -169,6 +169,8 @@ export default class extends Component {
                   <Button inline onClick={((event) => { this.togglePositionFilter(event, 'RB'); }).bind(this)}>RBs</Button>
                   <Button inline onClick={((event) => { this.togglePositionFilter(event, 'WR'); }).bind(this)}>WRs</Button>
                   <Button inline onClick={((event) => { this.togglePositionFilter(event, 'TE'); }).bind(this)}>TEs</Button>
+                  <Button inline onClick={((event) => { this.togglePositionFilter(event, 'K'); }).bind(this)}>TEs</Button>
+                  <Button inline onClick={((event) => { this.togglePositionFilter(event, 'DST'); }).bind(this)}>TEs</Button>
                 </Col>
                 <Col md={2}>
                   <Checkbox id="hide-unavailable-check" inline onChange={this.onHideUnavailablePlayers}>Hide drafted players</Checkbox>
