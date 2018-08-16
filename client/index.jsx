@@ -277,7 +277,7 @@ class App extends React.Component {
             if(valueArr[i] == 0){
             return (1).toFixed(3);
             }
-            return x/valueArr[i]}
+            return x/valueArr[i];}
       });
       let sum = ratioArr.reduce((previous, current) => current += previous);
       let avg = sum / ratioArr.length;
