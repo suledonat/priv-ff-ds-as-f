@@ -73,6 +73,7 @@ export default class extends Component {
             {headerName: "Bye", field: "team", filter: "number", filterParams: { newRowsAction: 'keep' }, cellRenderer: this.lookupByeWeek, width: 100},
             {headerName: "Pts", field: "points", filter: "number", filterParams: { newRowsAction: 'keep' }, cellRenderer: formatPoints, sortingOrder: ['desc','asc'], width: 100},
             {headerName: "VOR", field: "avg_vbd", filter: "number", filterParams: { newRowsAction: 'keep' }, cellRenderer: formatPoints, sortingOrder: ['desc','asc'], width: 100},
+            {headerName: "SoS", field: "sos", filter: "number", filterParams: { newRowsAction: 'keep' }, cellRenderer: formatPoints, sortingOrder: ['desc','asc'], width: 100},
             {headerName: "Base Value ($)", field: "base_price", filter: "number", filterParams: { newRowsAction: 'keep' }, cellRenderer: formatPriceFloat, sortingOrder: ['desc','asc'], width: 150},
             {headerName: "Inf Value ($)", field: "inflated_price", filter: "number", filterParams: { newRowsAction: 'keep' }, cellRenderer: formatPriceFloat, sort: 'desc', sortingOrder: ['desc','asc'], width: 150},
             {headerName: "Paid ($)", field: "purchase_price", filterParams: { newRowsAction: 'keep' }, filter: "number", cellRenderer: formatPurchasePrice, sortingOrder: ['desc','asc'], editable: true, cellEditor: "text", onCellValueChanged:this.onPlayerDataChange},

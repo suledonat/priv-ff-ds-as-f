@@ -109,7 +109,7 @@ class Player:
         return "%s\t%s\t%s\t%f\t%f\t%f\t%f" % (self.name, self.position,
                                                self.team, self.projected_points,
                                                self.starter_vbd, self.bench_vbd,
-                                               self.base_price)
+                                               self.base_price,self.sos)
 
 
 class PlayerPriceJsonEncoder(json.JSONEncoder):
@@ -124,6 +124,7 @@ class PlayerPriceJsonEncoder(json.JSONEncoder):
                 "base_price": obj.base_price,
                 "avg_vbd": obj.avg_vbd,
                 "tier": obj.tier,
+                "sos": obj.sos,
             }
         return json.JSONEncoder.default(self, obj)
 
