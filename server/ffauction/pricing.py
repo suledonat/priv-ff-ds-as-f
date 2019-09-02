@@ -19,12 +19,20 @@ class VBDModel:
                 assign_negative_vbd=False):
         for position in players_by_position:
             players_by_position[position].sort(key=lambda player: player.projected_points, reverse=True)
+
+            nplayer = float(len(players_by_position[position]))
+            total_sos = 0.0
+            for player in players_by_position[position]:
+                total_sos = total_sos + player.sos
+
+            avg_sos = total_sos/ nplayer
+
             pos_base_vbd = (players_by_position
                             [position]
                             [position_counts[position]-1]
                             .projected_points)
             for player in players_by_position[position]:
-                new_vbd = player.projected_points - pos_base_vbd
+                new_vbd = ((player.projected_points - pos_base_vbd) ** 2.0) *(player.sos/avg_sos)
                 if not assign_negative_vbd and new_vbd < 0:
                     new_vbd = 0
 
@@ -40,14 +48,24 @@ class VBDModel:
 
 
 class PriceModel:
+
     def calc_base_prices(self, league):
+        dollar_caps = {
+            "QB":15.0,
+            "K":2.0,
+            "DST":2.0,
+            }
         bench_pf = self.get_bench_pf(league)
         starter_pf = self.get_starter_pf(league, bench_pf)
+        
 
         for player in league.player_set.get_all():
-            player.base_price = (player.starter_vbd * starter_pf +
+            max_price = 1e6
+            if player.position in dollar_caps:
+                max_price = dollar_caps[player.position]
+            player.base_price = numpy.min((player.starter_vbd * starter_pf +
                                     (player.bench_vbd - player.starter_vbd)
-                                    * bench_pf)
+                                    * bench_pf),max_price)
 
         return (starter_pf, bench_pf)
 
