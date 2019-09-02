@@ -86,8 +86,8 @@ class Player:
         self.sos = float(row['sos'])
 
 
-        self.twoPts = 0 ##float(row['twoPts']) depr in 2019
-        self.sacks = 0 ##float(row['sacks']) depr in 2019
+        self.twoPts = 0.0##float(row['twoPts']) depr in 2019
+        self.sacks = 0.0 ##float(row['sacks']) depr in 2019
 
 
 
