@@ -20,7 +20,7 @@ class VBDModel:
         for position in players_by_position:
             players_by_position[position].sort(key=lambda player: player.projected_points, reverse=True)
 
-            nplayer = float(len(players_by_position[position]))
+            nplayer = nump.max(float(len(players_by_position[position])),1.0)
             # total_sos = 0.0
             # for player in players_by_position[position]:
             #     total_sos += player.sos
