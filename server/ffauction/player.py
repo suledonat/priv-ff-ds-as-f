@@ -36,7 +36,18 @@ class Player:
 
         self.adjFactor = 0.0
 
-
+        self.fg = 0.0
+        self.fgAtt = 0.0
+        self.xpt = 0.0
+        self.sack = 0.0
+        self.defInt = 0.0
+        self.fr = 0.0
+        self.ff = 0.0
+        self.defTd = 0.0
+        self.safe = 0.0
+        self.ptsAllowed = 0.0
+        self.ydsVS = 0.0
+        self.sos = 0.0
 
 
     def init_from_row(self, row):
@@ -49,8 +60,8 @@ class Player:
         self.passComp = float(row['passComp'])
         self.passYds = float(row['passYds'])
         self.passTds = float(row['passTds'])
-        self.twoPts = float(row['twoPts'])
-        self.sacks = float(row['sacks'])
+        
+        
         self.passInt = float(row['passInt'])
         self.rushAtt = float(row['rushAtt'])
         self.rushYds = float(row['rushYds'])
@@ -60,6 +71,25 @@ class Player:
         self.recTds = float(row['recTds'])
         self.fumbles = float(row['fumbles'])
         self.adjFactor = float(row['adjFactor'])
+
+        self.fg = float(row['fg'])
+        self.fgAtt = float(row['fgAtt'])
+        self.xpt = float(row['xpt'])
+        self.sack = float(row['sack'])
+        self.defInt = float(row['defInt'])
+        self.fr = float(row['fr'])
+        self.ff = float(row['ff'])
+        self.defTd = float(row['defTd'])
+        self.safe = float(row['safe'])
+        self.ptsAllowed = float(row['ptsAllowed'])
+        self.ydsVS = float(row['ydsVS'])
+        self.sos = float(row['sos'])
+
+
+        self.twoPts = 0 ##float(row['twoPts']) depr in 2019
+        self.sacks = 0 ##float(row['sacks']) depr in 2019
+
+
 
     def calc_points(self, scoring):
         self.projected_points = 0
@@ -169,7 +199,7 @@ class PlayerSet:
 
     def load_projection_stats_DB(self, conn):
         cur = conn.cursor(cursor_factory=psycopg2.extras.RealDictCursor)
-        cur.execute("SELECT * FROM privffdata;")
+        cur.execute("SELECT * FROM ff2019data;")
         for row in cur:
             player = Player()
             player.init_from_row(row)
