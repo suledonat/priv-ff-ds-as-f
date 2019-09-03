@@ -63,12 +63,10 @@ class PriceModel:
         
 
         for player in league.player_set.get_all():
-            max_price = 1e6
+            max_price = 1.0e6
             if player.position in dollar_caps:
                 max_price = dollar_caps[player.position]
-            player.base_price = numpy.min((player.starter_vbd * starter_pf +
-                                    (player.bench_vbd - player.starter_vbd)
-                                    * bench_pf),max_price)
+            player.base_price = numpy.min((player.starter_vbd * starter_pf + (player.bench_vbd - player.starter_vbd)* bench_pf),max_price)
 
         return (starter_pf, bench_pf)
 
