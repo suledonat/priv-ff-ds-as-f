@@ -75,7 +75,7 @@ class PriceModel:
                 max_price = soft_dollar_caps[player.position]
             res_price = ((player.starter_vbd * starter_pf) + (numpy.sqrt(max((player.bench_vbd - player.starter_vbd)* starter_pf,0))) + numpy.sqrt(max((player.bench_vbd - player.starter_vbd)* bench_pf,0)))
             if res_price > max_price:
-                excess = numpy.sqrt(res_price - max_price)
+                excess = numpy.sqrt(res_price - max_price)*0.66
                 res_price = max_price + excess
             player.base_price = res_price 
 
