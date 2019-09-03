@@ -20,19 +20,22 @@ class VBDModel:
         for position in players_by_position:
             players_by_position[position].sort(key=lambda player: player.projected_points, reverse=True)
 
-            nplayer = numpy.max(float(len(players_by_position[position])),1.0)
+            #nplayer = numpy.max(float(len(players_by_position[position])),1.0)
             # total_sos = 0.0
             # for player in players_by_position[position]:
             #     total_sos += player.sos
 
-            avg_sos = (nplayer*20.0)/ nplayer
+            #avg_sos = (nplayer*20.0)/ nplayer
 
             pos_base_vbd = (players_by_position
                             [position]
                             [position_counts[position]-1]
                             .projected_points)
             for player in players_by_position[position]:
-                new_vbd = ((player.projected_points - pos_base_vbd) ** 2.0) *(player.sos/avg_sos)
+                scalar = 1.0
+             #   if not numpy.isclose(avg_sos,0):
+             #      scalar = player.sos/avg_sos
+                new_vbd = ((player.projected_points - pos_base_vbd) ** 2.0) * (scalar)
                 if not assign_negative_vbd and new_vbd < 0:
                     new_vbd = 0
 
