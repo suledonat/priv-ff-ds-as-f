@@ -99,8 +99,13 @@ def get_players():
             'benchPF': bench_pf,
             'players': league.player_set.get_all()
             }, cls=PlayerPriceJsonEncoder)
-    except Exception as e: 
-        return print(traceback.format_exception(None,  e, e.__traceback__),file=sys.stderr, flush=True)
+    except Exception as e:
+        traceback = e.__traceback__
+        outstr = ""
+        while traceback:
+            outstr = outstr +  ("{}: {}".format(traceback.tb_frame.f_code.co_filename,traceback.tb_lineno))
+            traceback = traceback.tb_next 
+        return outstr
          #str(e) + "/r/n" +str(e.__traceback__)
 
 
