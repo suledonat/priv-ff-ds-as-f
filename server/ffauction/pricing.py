@@ -71,7 +71,7 @@ class PriceModel:
 
         for player in league.player_set.get_all():
             max_price = 1.0e6
-            if player.position in dollar_caps:
+            if player.position in soft_dollar_caps:
                 max_price = soft_dollar_caps[player.position]
             res_price = ((player.starter_vbd * starter_pf) + (numpy.sqrt(max((player.bench_vbd - player.starter_vbd)* starter_pf,0))) + numpy.sqrt(max((player.bench_vbd - player.starter_vbd)* bench_pf,0)))
             if res_price > max_price:
