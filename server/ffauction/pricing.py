@@ -36,8 +36,8 @@ class VBDModel:
              #   if not numpy.isclose(avg_sos,0):
              #      scalar = player.sos/avg_sos
                 new_vbd = ((player.projected_points - pos_base_vbd) ** 2.0) * (scalar)
-                if not assign_negative_vbd and new_vbd < 0:
-                    new_vbd = 0
+                if not assign_negative_vbd and new_vbd < 0.0:
+                    new_vbd = 0.0
 
                 setattr(player, target_field, new_vbd)
 
