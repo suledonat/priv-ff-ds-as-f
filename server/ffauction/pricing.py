@@ -20,12 +20,13 @@ class VBDModel:
         for position in players_by_position:
             players_by_position[position].sort(key=lambda player: player.projected_points, reverse=True)
 
-            nplayer = numpy.max(float(len(players_by_position[position])),1.0)
+            nplayer = 0.0
             total_sos = 0.0
             for player in players_by_position[position]:
                 total_sos += player.sos
+                nplayer += 1.0
 
-            avg_sos = (total_sos)/ nplayer
+            avg_sos = (total_sos)/ max(nplayer,1.0)
 
             pos_base_vbd = (players_by_position
                             [position]
