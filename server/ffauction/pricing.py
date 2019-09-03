@@ -40,11 +40,13 @@ class VBDModel:
                 if not numpy.isclose(avg_sos,0):
                     scalar = player.sos/avg_sos
                 new_vbd = (player.projected_points - pos_base_vbd)
+                sgn = 1.0
                 if new_vbd < 0.0:
+                    sgn = -1.0
                     if not assign_negative_vbd:
                         new_vbd = 0.0
 
-                new_vbd = (new_vbd) * (scalar)
+                new_vbd = (new_vbd ** 2) * (scalar) * sgn
 
                 setattr(player, target_field, new_vbd)
 
@@ -73,7 +75,8 @@ class PriceModel:
             max_price = 1.0e6
             if player.position in dollar_caps:
                 max_price = dollar_caps[player.position]
-            player.base_price = (player.starter_vbd * starter_pf + (player.bench_vbd - player.starter_vbd)* bench_pf)
+            #player.base_price = max((player.starter_vbd * starter_pf + (player.bench_vbd - player.starter_vbd)* bench_pf),max_price)
+            player.base_price = max((player.starter_vbd * starter_pf + (player.bench_vbd - player.starter_vbd)* bench_pf),max_price)
 
         return (starter_pf, bench_pf)
 
@@ -101,7 +104,6 @@ class PriceModel:
             for player in starters[position]:
                 starter_vbd += player.starter_vbd
 
-        starter_budget = ((league.user_settings.get_available_budget()
-                          * league.user_settings.starter_budget_pct)
+        starter_budget = ((league.user_settings.get_available_budget() * league.user_settings.starter_budget_pct)
                           - start_value_over_bench * bench_pf)
         return starter_budget / starter_vbd
