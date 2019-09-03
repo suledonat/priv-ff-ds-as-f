@@ -100,7 +100,7 @@ def get_players():
             'players': league.player_set.get_all()
             }, cls=PlayerPriceJsonEncoder)
     except Exception as e: 
-        return traceback.print_exception(e)
+        return str(e) + "/r/n" +str(err.__traceback__)
 
 
 #def upload_projections():
