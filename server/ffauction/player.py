@@ -8,11 +8,11 @@ import psycopg2.extras
 
 class Player:
     def __init__(self):
-        self.projected_points = 0
-        self.starter_vbd = 0
-        self.bench_vbd = 0
-        self.avg_vbd = 0
-        self.base_price = 0
+        self.projected_points = 0.0
+        self.starter_vbd = 0.0
+        self.bench_vbd = 0.0
+        self.avg_vbd = 0.0
+        self.base_price = 0.0
         self.tier = 0
         self.name = "NA"
         self.player_id = "NAID"

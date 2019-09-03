@@ -14,7 +14,7 @@ from ffauction.player import PlayerSet, PlayerPriceJsonEncoder, FullPlayerJsonEn
 from ffauction.pricing import VBDModel, PriceModel
 from ffauction.user_settings import UserSettings
 from werkzeug.utils import secure_filename
-
+import traceback
 
 app = Flask(__name__)
 
@@ -100,7 +100,7 @@ def get_players():
             'players': league.player_set.get_all()
             }, cls=PlayerPriceJsonEncoder)
     except Exception as e: 
-        return str(e)
+        return traceback.print_exception(e)
 
 
 #def upload_projections():
