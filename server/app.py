@@ -61,43 +61,46 @@ DEFAULTS = {
 
 @app.route('/api/players', methods=['POST', 'GET'])
 def get_players():
-    settings_dict = DEFAULTS.copy()
-    if request.json:
-        if 'scoring' in request.json:
-            if 'passYds' in request.json['scoring']:
-                request.json['scoring']['passYds'] =\
-                    (1 / request.json['scoring']['passYds'])
-            if 'rushYds' in request.json['scoring']:
-                request.json['scoring']['rushYds'] =\
-                    (1 / request.json['scoring']['rushYds'])
-            if 'recYds' in request.json['scoring']:
-                request.json['scoring']['recYds'] =\
-                    (1 / request.json['scoring']['recYds'])
-        settings_dict.update(request.json)
-    user_settings = UserSettings(settings_dict)
-    r = redis.from_url(os.environ.get("REDIS_URL"))
-    json_player_set = r.get('projections_json')
-    player_set = None
-    if not json_player_set:
-        pickle_player_set = r.get('projections')
-        if not pickle_player_set:
-            return "No projections"
-        player_set = pickle.loads(pickle_player_set)
-    else:
-        list_of_players = json.loads(json_player_set)
-        player_set = PlayerSet()
-        player_set.load_list(list_of_players)
-    league = League(user_settings, player_set)
-    league.calc_projected_points()
-    vbd_model = VBDModel()
-    vbd_model.calc_vbd(league)
-    price_model = PriceModel()
-    (starter_pf, bench_pf) = price_model.calc_base_prices(league)
-    return json.dumps({
-        'starterPF': starter_pf,
-        'benchPF': bench_pf,
-        'players': league.player_set.get_all()
-        }, cls=PlayerPriceJsonEncoder)
+    try:
+        settings_dict = DEFAULTS.copy()
+        if request.json:
+            if 'scoring' in request.json:
+                if 'passYds' in request.json['scoring']:
+                    request.json['scoring']['passYds'] =\
+                        (1 / request.json['scoring']['passYds'])
+                if 'rushYds' in request.json['scoring']:
+                    request.json['scoring']['rushYds'] =\
+                        (1 / request.json['scoring']['rushYds'])
+                if 'recYds' in request.json['scoring']:
+                    request.json['scoring']['recYds'] =\
+                        (1 / request.json['scoring']['recYds'])
+            settings_dict.update(request.json)
+        user_settings = UserSettings(settings_dict)
+        r = redis.from_url(os.environ.get("REDIS_URL"))
+        json_player_set = r.get('projections_json')
+        player_set = None
+        if not json_player_set:
+            pickle_player_set = r.get('projections')
+            if not pickle_player_set:
+                return "No projections"
+            player_set = pickle.loads(pickle_player_set)
+        else:
+            list_of_players = json.loads(json_player_set)
+            player_set = PlayerSet()
+            player_set.load_list(list_of_players)
+        league = League(user_settings, player_set)
+        league.calc_projected_points()
+        vbd_model = VBDModel()
+        vbd_model.calc_vbd(league)
+        price_model = PriceModel()
+        (starter_pf, bench_pf) = price_model.calc_base_prices(league)
+        return json.dumps({
+            'starterPF': starter_pf,
+            'benchPF': bench_pf,
+            'players': league.player_set.get_all()
+            }, cls=PlayerPriceJsonEncoder)
+    except Exception as e: 
+        return str(e)
 
 
 #def upload_projections():
