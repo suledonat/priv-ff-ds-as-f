@@ -60,7 +60,7 @@ class VBDModel:
 class PriceModel:
 
     def calc_base_prices(self, league):
-        dollar_caps = {
+        soft_dollar_caps = {
             "QB":15.0,
             "K":2.0,
             "DST":2.0,
@@ -72,8 +72,12 @@ class PriceModel:
         for player in league.player_set.get_all():
             max_price = 1.0e6
             if player.position in dollar_caps:
-                max_price = dollar_caps[player.position]
-            player.base_price = ((player.starter_vbd * starter_pf) + (numpy.sqrt(max((player.bench_vbd - player.starter_vbd)* starter_pf,0))) + numpy.sqrt(max((player.bench_vbd - player.starter_vbd)* bench_pf,0)))
+                max_price = soft_dollar_caps[player.position]
+            res_price = ((player.starter_vbd * starter_pf) + (numpy.sqrt(max((player.bench_vbd - player.starter_vbd)* starter_pf,0))) + numpy.sqrt(max((player.bench_vbd - player.starter_vbd)* bench_pf,0)))
+            if res_price > max_price:
+                excess = numpy.sqrt(res_price - max_price)
+                res_price = max_price + excess
+            player.base_price = res_price 
 
         return (starter_pf, bench_pf)
 
