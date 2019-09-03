@@ -72,7 +72,7 @@ export default class extends Component {
             {headerName: "Team", field: "team", filter: "text", filterParams: { newRowsAction: 'keep' }, width: 100},
             {headerName: "Bye", field: "team", filter: "number", filterParams: { newRowsAction: 'keep' }, cellRenderer: this.lookupByeWeek, width: 100},
             {headerName: "Pts", field: "points", filter: "number", filterParams: { newRowsAction: 'keep' }, cellRenderer: formatPoints, sortingOrder: ['desc','asc'], width: 100},
-            {headerName: "VOR", field: "avg_vbd", filter: "number", filterParams: { newRowsAction: 'keep' }, cellRenderer: formatPoints, sortingOrder: ['desc','asc'], width: 100},
+            {headerName: "VOR", field: "avg_vbd", filter: "number", filterParams: { newRowsAction: 'keep' }, cellRenderer: formatPoints, sortingOrder: ['desc','asc'], width: 200},
             {headerName: "SoS", field: "sos", filter: "number", filterParams: { newRowsAction: 'keep' }, cellRenderer: formatPoints, sortingOrder: ['desc','asc'], width: 100},
             {headerName: "Base Value ($)", field: "base_price", filter: "number", filterParams: { newRowsAction: 'keep' }, cellRenderer: formatPriceFloat, sortingOrder: ['desc','asc'], width: 150},
             {headerName: "Inf Value ($)", field: "inflated_price", filter: "number", filterParams: { newRowsAction: 'keep' }, cellRenderer: formatPriceFloat, sort: 'desc', sortingOrder: ['desc','asc'], width: 150},
