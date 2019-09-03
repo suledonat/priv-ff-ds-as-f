@@ -26,7 +26,10 @@ class VBDModel:
                 total_sos += player.sos
                 nplayer += 1.0
 
-            avg_sos = (total_sos)/ max(nplayer,1.0)
+            if numpy.isclose(nplayer,0):
+                avg_sos = 0
+            else:
+                avg_sos = (total_sos)/ max(nplayer,1.0)
 
             pos_base_vbd = (players_by_position
                             [position]
