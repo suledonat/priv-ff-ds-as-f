@@ -1,6 +1,6 @@
 {
-  "name": "FFAuction Draft Tool",
-  "description": "Draft day tool for value-based drafting",
+  "name": "Secret",
+  "description": "Event More Secret",
   "keywords": [
     "react",
     "webpack",
@@ -11,7 +11,7 @@
     "hot",
     "reload"
   ],
-  "website": "https://github.com/jbarciauskas/ffauction-app",
+  "website": "somehwere",
   "addons": ["heroku-redis:hobby-dev"],
   "buildpacks": [
     {
