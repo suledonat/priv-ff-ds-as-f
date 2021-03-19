@@ -4,7 +4,7 @@ Flask==0.10.1
 Flask-Cors==3.0.3
 gunicorn==19.3.0
 itsdangerous==0.24
-Jinja2==2.7.3
+Jinja2==2.11.3
 MarkupSafe==0.23
 numpy==1.15
 redis==2.10.5
