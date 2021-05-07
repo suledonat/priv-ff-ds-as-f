@@ -38,7 +38,7 @@
     "jss-nested": "1.0.1",
     "jss-px": "1.0.0",
     "jss-vendor-prefixer": "1.0.1",
-    "lodash": "4.0.0",
+    "lodash": "4.17.21",
     "node-libs-browser": "1.0.0",
     "promise": "7.1.1",
     "react": "0.14.9",
