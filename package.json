@@ -59,7 +59,7 @@
   "devDependencies": {
     "assets-webpack-plugin": "3.2.0",
     "babel": "6.3.26",
-    "babel-core": "6.3.26",
+    "babel-core": "6.26.3",
     "babel-eslint": "5.0.0-beta10",
     "babel-jest": "6.0.1",
     "babel-loader": "6.2.1",
@@ -78,7 +78,7 @@
     "export-files-webpack-plugin": "0.0.1",
     "html-webpack-plugin": "2.7.1",
     "jest": "0.1.40",
-    "jest-cli": "0.8.2",
+    "jest-cli": "29.2.2",
     "jsx-loader": "0.13.2",
     "mkdirp": "0.5.1",
     "react-transform-hmr": "1.0.1",
